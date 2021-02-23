@@ -135,7 +135,7 @@ void loop()
   }
 }
 
-//自动行驶避障
+//超声波避障
 void avoidAuto()
 {
   forward();
