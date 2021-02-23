@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>小车控制页面</title>
+    <meta
+      charset="UTF-8"
+      name="viewport"
+      content="width=device-width,inital-scale=1,user-scalable=no"
+    />
+    <style>
+      .forward {
+        background-image: url(./forward.png);
+        background-color: white;
+        height: 100px;
+        width: 100px;
+        border-style: none;
+        outline: none;
+        background-position: 50% 50%;
+      }
+      .backward {
+        background-image: url(./backward.png);
+        background-color: white;
+        height: 100px;
+        width: 100px;
+        border-style: none;
+        outline: none;
+        background-position: 50% 50%;
+      }
+      .left {
+        background-image: url(./left.png);
+        background-color: white;
+        height: 100px;
+        width: 100px;
+        border-style: none;
+        outline: none;
+        background-position: 50% 50%;
+      }
+      .right {
+        background-image: url(./right.png);
+        background-color: white;
+        height: 100px;
+        width: 100px;
+        border-style: none;
+        outline: none;
+        background-position: 50% 50%;
+      }
+      .stop {
+        background-image: url(./circle.png);
+        background-color: white;
+        height: 100px;
+        width: 100px;
+        border-style: none;
+        outline: none;
+        background-size: cover;
+        background-position: 50% 50%;
+      }
+      .uiswitch {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        -o-appearance: none;
+        appearance: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        height: 31px;
+        width: 51px;
+        position: relative;
+        border-radius: 16px;
+        cursor: pointer;
+        outline: 0;
+        z-index: 0;
+        margin: 0;
+        padding: 0;
+        border: none;
+        background-color: #e5e5e5;
+        -webkit-transition-duration: 600ms;
+        -moz-transition-duration: 600ms;
+        transition-duration: 600ms;
+        -webkit-transition-timing-function: ease-in-out;
+        -moz-transition-timing-function: ease-in-out;
+        transition-timing-function: ease-in-out;
+        -webkit-touch-callout: none;
+        -webkit-text-size-adjust: none;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-user-select: none;
+      }
+      .uiswitch::before {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        height: 27px;
+        width: 47px;
+        content: ' ';
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        background-color: #ffffff;
+        border-radius: 16px;
+        z-index: 1;
+        -webkit-transition-duration: 300ms;
+        -moz-transition-duration: 300ms;
+        transition-duration: 300ms;
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+        transform: scale(1);
+      }
+      .uiswitch::after {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        height: 27px;
+        width: 27px;
+        content: ' ';
+        position: absolute;
+        border-radius: 27px;
+        background: #ffffff;
+        z-index: 2;
+        top: 2px;
+        left: 2px;
+        box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25),
+          0px 4px 11px 0px rgba(0, 0, 0, 0.08),
+          -1px 3px 3px 0px rgba(0, 0, 0, 0.14);
+        -webkit-transition: -webkit-transform 300ms, width 280ms;
+        -moz-transition: -moz-transform 300ms, width 280ms;
+        transition: transform 300ms, width 280ms;
+        -webkit-transform: translate3d(0, 0, 0);
+        -moz-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+        -o-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        -webkit-transition-timing-function: cubic-bezier(0.42, 0.8, 0.58, 1.2);
+        -moz-transition-timing-function: cubic-bezier(0.42, 0.8, 0.58, 1.2);
+        transition-timing-function: cubic-bezier(0.42, 0.8, 0.58, 1.2);
+      }
+      .uiswitch:checked {
+        background-color: #4cd964;
+        background-image: -webkit-linear-gradient(
+          -90deg,
+          #4cd964 0%,
+          #4dd865 100%
+        );
+        background-image: linear-gradient(-180deg, #4cd964 0%, #4dd865 100%);
+      }
+      .uiswitch:checked::after {
+        -webkit-transform: translate3d(16px, 0, 0);
+        -moz-transform: translate3d(16px, 0, 0);
+        -ms-transform: translate3d(16px, 0, 0);
+        -o-transform: translate3d(16px, 0, 0);
+        transform: translate3d(16px, 0, 0);
+        right: 18px;
+        left: inherit;
+      }
+      .uiswitch:active::after {
+        width: 35px;
+      }
+      .uiswitch:checked::before,
+      .uiswitch:active::before {
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -ms-transform: scale(0);
+        -o-transform: scale(0);
+        transform: scale(0);
+      }
+      .uiswitch:disabled {
+        opacity: 0.5;
+        cursor: default;
+        -webkit-transition: none;
+        -moz-transition: none;
+        transition: none;
+      }
+      .uiswitch:disabled:active::before,
+      .uiswitch:disabled:active::after,
+      .uiswitch:disabled:checked:active::before,
+      .uiswitch:disabled:checked::before {
+        width: 27px;
+        -webkit-transition: none;
+        -moz-transition: none;
+        transition: none;
+      }
+      .uiswitch:disabled:active::before {
+        height: 27px;
+        width: 41px;
+        -webkit-transform: translate3d(6px, 0, 0);
+        -moz-transform: translate3d(6px, 0, 0);
+        -ms-transform: translate3d(6px, 0, 0);
+        -o-transform: translate3d(6px, 0, 0);
+        transform: translate3d(6px, 0, 0);
+      }
+      .uiswitch:disabled:checked:active::before {
+        height: 27px;
+        width: 27px;
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -ms-transform: scale(0);
+        -o-transform: scale(0);
+        transform: scale(0);
+      }
+
+      .uiswitch {
+        background-color: #e5e5e5;
+      }
+      .uiswitch::before {
+        background-color: #ffffff;
+      }
+      .uiswitch::after {
+        background: #ffffff;
+      }
+      .uiswitch:checked {
+        background-color: #4cd964;
+        background-image: -webkit-linear-gradient(
+          -90deg,
+          #4cd964 0%,
+          #4dd865 100%
+        );
+        background-image: linear-gradient(-180deg, #4cd964 0%, #4dd865 100%);
+      }
+    </style>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <h1>智能小车控制</h1>
+      <h3>按下方向键控制小车移动</h3>
+      <br />
+    </div>
+    <div style="margin-left: 10px;float: left; height: 31px;width: 150px; display: flex">
+      <span
+        style="
+          margin-right: 5px;
+          align-self: center;
+          font-size: 20px;
+          color: rgb(16, 166, 185);
+        "
+        >自动行驶</span
+      >
+      <input type="checkbox" class="uiswitch" id="avoidAuto" onclick="avoidAuto()" />
+    </div>
+    <div style="float: right; margin-right: 10px; height: 31px; display: flex">
+      <span
+        style="
+          margin-right: 5px;
+          align-self: center;
+          font-size: 20px;
+          color: rgb(16, 166, 185);
+        "
+        >高速</span
+      >
+      <input type="checkbox" class="uiswitch" id="speed" onclick="speed()" checked />
+    </div>
+    <br /><br />
+    <div
+      style="
+        float: right;
+        margin-right: 10px;
+        height: 31px;
+        display: flex;
+        margin-top: 3px;
+      "
+    >
+      <span
+        style="
+          margin-right: 5px;
+          align-self: center;
+          font-size: 20px;
+          color: rgb(16, 166, 185);
+        "
+        >跟随</span
+      >
+      <input
+        type="checkbox"
+        class="uiswitch"
+        id="follow"
+        onclick="follow()"
+        checked
+      />
+    </div>
+
+    <div style="margin-top: 15%; text-align: center">
+      小车状态 : <br />
+      <span id="CarState">停止前进</span>
+      <span id="SpeedState">高速</span><br />
+    </div>
+
+    <div style="margin-top: 10%; text-align: center">
+      <button
+        id="forward"
+        class="forward"
+        ontouchstart="sendData('forward')"
+        ontouchend="sendData('stop')"
+      ></button
+      ><br />
+      <button
+        id="left"
+        class="left"
+        ontouchstart="sendData('left')"
+        ontouchend="sendData('stop')"
+      ></button>
+      <button id="stop" class="stop" onclick="sendData('stop')"></button>
+      <button
+        id="right"
+        class="right"
+        ontouchstart="sendData('right')"
+        ontouchend="sendData('stop')"
+      ></button>
+      <button
+        id="backward"
+        class="backward"
+        ontouchstart="sendData('backward')"
+        ontouchend="sendData('stop')"
+      ></button>
+    </div>
+
+    <script>
+      function sendData(control) {
+        var xhttp = new XMLHttpRequest()
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('CarState').innerHTML = this.responseText
+          }
+        }
+        xhttp.open('GET', control, true)
+        xhttp.send()
+      }
+
+      function speed() {
+        var xhttp = new XMLHttpRequest()
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('SpeedState').innerHTML = this.responseText
+          }
+        }
+        var speed = document.getElementById('speed')
+        if (speed.checked) {
+          xhttp.open('GET', 'HighSpeed', true)
+          xhttp.send()
+        } else {
+          xhttp.open('GET', 'LowSpeed', true)
+          xhttp.send()
+        }
+      }
+
+      function follow() {
+        var xhttp = new XMLHttpRequest()
+        var follow = document.getElementById('follow')
+        if (follow.checked) {
+          xhttp.open('GET', 'follow?followState=true', true)
+          xhttp.send()
+        } else {
+          xhttp.open('GET', 'follow?followState=false', true)
+          xhttp.send()
+        }
+      }
+
+      function avoidAuto(){
+        var xhttp = new XMLHttpRequest()
+        var avoidAuto = document.getElementById('avoidAuto')
+        if (avoidAuto.checked) {
+          document.getElementById("CarState").innerHTML = "自动行驶"
+          document.getElementById("follow").disabled = "disabled"
+          document.getElementById("forward").disabled = "disabled"
+          document.getElementById("left").disabled = "disabled"
+          document.getElementById("right").disabled = "disabled"
+          document.getElementById("backward").disabled = "disabled"
+          document.getElementById("stop").disabled = "disabled"
+          xhttp.open('GET', 'avoidAuto?autoState=true', true)
+          xhttp.send()
+        } else {
+          document.getElementById("CarState").innerHTML = "停止前进"
+          document.getElementById("follow").disabled = ""
+          document.getElementById("forward").disabled = ""
+          document.getElementById("left").disabled = ""
+          document.getElementById("right").disabled = ""
+          document.getElementById("backward").disabled = ""
+          document.getElementById("stop").disabled = ""
+          xhttp.open('GET', 'avoidAuto?autoState=false', true)
+          xhttp.send()
+        }
+      }
+    </script>
+  </body>
+</html>
