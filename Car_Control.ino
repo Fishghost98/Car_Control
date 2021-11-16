@@ -146,7 +146,7 @@ void avoidAuto()
     servoControl(90, 180);
     delay(100);
     if (int(getDistance()) < 30)
-    {h'g
+    {
       servoControl(180,0);
       delay(100);
       if (int(getDistance()) < 30)
